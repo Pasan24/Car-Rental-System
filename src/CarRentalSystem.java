@@ -61,7 +61,7 @@ public class CarRentalSystem {
             System.out.println("=====Car Rental System =====");
             System.out.println();
             System.out.println("1. Rent a Car ");
-            System.out.println("2. Rent a Car");
+            System.out.println("2. Return a Car");
             System.out.println("3. Exit");
             System.out.println();
             System.out.println("Enter Your Choice");
@@ -125,23 +125,54 @@ public class CarRentalSystem {
                 else{
                         System.out.println("\n Invalid car selection or car not  available for rent ");
                     }
-                }else if (choice==2){
+                }else if (choice==2) {
                 System.out.println("\n == Return a car ==\n");
                 System.out.println("Enter the car ID  you want to return ; ");
-                String carId= scanner.nextLine();
+                String carId = scanner.nextLine();
 
                 Car carToReturn = null;
-                for (Car car: cars){
-                    if(car.getCarID().equals(carId) && !car.isAvailable()){
-                        carToReturn=car ;
+                for (Car car : cars) {
+                    if (car.getCarID().equals(carId) && !car.isAvailable()) {
+                        carToReturn = car;
                         break;
                     }
                 }
 
 
+            if (carToReturn != null) {
+                   Customer customer = null ;
+
+                    for (Rental rental : rentals){
+                        if (rental.getCar()== carToReturn){
+                            customer =rental.getCustomer();
+                            break;
+                        }
+                    }
+
+                    if (customer!=null){
+                        returnCar(carToReturn);
+                        System.out.println("Car returned successfully by "+ customer.getName());
+                    }else{
+                        System.out.println("car was not rented or rental informations are missing");
+                    }
+
+
+                }else {
+                System.out.println("Car was not rented");
 
             }
+
+
+            }
+            else if (choice==3){
+
+                break;
+            }else{
+                System.out.println("Invalid choice. Please enter valid number");
+            }
         }
+
+        System.out.println("\n Thank you for using the car rental system ! ");
     }
 
 }
