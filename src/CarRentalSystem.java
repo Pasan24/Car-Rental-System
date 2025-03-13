@@ -34,6 +34,26 @@ public class CarRentalSystem {
 
     public void returnCar(Car car){
 
+        car.returnCar();
+        Rental rentalToRemove = null;
+        for(Rental rental : rentals){  // this loop iterate over rental object of rentals list
+            if(rental.getCar()==car){
+                rentalToRemove =rental;
+                break;
+            }
+        }
+
+        if(rentalToRemove!= null){
+            rentals.remove(rentalToRemove);
+            System.out.println("Car returned Properly");
+        }else{
+            System.out.println("Car not returned Properly");
+        }
+
+    }
+
+    public void menu(){
+
     }
 
 }
