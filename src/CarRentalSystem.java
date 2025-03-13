@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class CarRentalSystem {
 
@@ -54,6 +55,93 @@ public class CarRentalSystem {
 
     public void menu(){
 
+        Scanner scanner = new Scanner(System.in);
+
+        while(true){
+            System.out.println("=====Car Rental System =====");
+            System.out.println();
+            System.out.println("1. Rent a Car ");
+            System.out.println("2. Rent a Car");
+            System.out.println("3. Exit");
+            System.out.println();
+            System.out.println("Enter Your Choice");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // used to consume the newline character
+
+
+            if (choice==1){
+                System.out.println("\n== Rent a Car == \n");
+                System.out.print(" Enter Your Name  : ");
+                String customerName = scanner.nextLine();
+
+                System.out.println("\nAvailable Cars : ");
+                for (Car car : cars){
+                    if(car.isAvailable()){
+                        System.out.println(car.getCarID() +" - "+car.getBrand()+" - "+car.getModel());
+                    }
+                }
+
+                System.out.println("\n Enter the car ID you want to rent ");
+                String carID = scanner.nextLine();
+
+                System.out.println("Enter the number of Days for rental");
+                int rentalDays= scanner.nextInt();
+                scanner.nextLine();
+
+                Customer newCustomer = new Customer("CUS"+(customers.size()+1),customerName);
+
+                addCustomer(newCustomer);
+
+                Car selectedCar= null;
+                for(Car car : cars){
+                    if(car.getCarID().equals(carID) && car.isAvailable()){
+                        selectedCar = car;
+                        break;
+                    }
+
+                }
+
+                if (selectedCar!=null) {
+                    double totalPrice = selectedCar.calculatePrice(rentalDays);
+                    System.out.println("\n== Rental Information ==  ");
+                    System.out.println("Customer ID " + newCustomer.getCustomerID());
+                    System.out.println("Customer Name " + newCustomer.getName());
+                    System.out.println("Car " + selectedCar.getBrand() + " " + selectedCar.getModel());
+                    System.out.println("rental Days : " + rentalDays);
+                    System.out.printf("Total Price :$%.2f%n", totalPrice);
+
+                    System.out.println();
+                    System.out.println("\n Confirm rental (Y/N)");
+                    String confirm = scanner.nextLine();
+
+                    if (confirm.equalsIgnoreCase("Y")) {
+                        rentCar(selectedCar, newCustomer, rentalDays);
+                        System.out.println("\n Car rented  Successfully ");
+                    } else {
+                        System.out.println("\n Rental Canceld");
+                    }
+                }
+                else{
+                        System.out.println("\n Invalid car selection or car not  available for rent ");
+                    }
+                }else if (choice==2){
+                System.out.println("\n == Return a car ==\n");
+                System.out.println("Enter the car ID  you want to return ; ");
+                String carId= scanner.nextLine();
+
+                Car carToReturn = null;
+                for (Car car: cars){
+                    if(car.getCarID().equals(carId) && !car.isAvailable()){
+                        carToReturn=car ;
+                        break;
+                    }
+                }
+
+
+
+            }
+        }
     }
 
 }
